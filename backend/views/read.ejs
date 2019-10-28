@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <td>제목</td>
+            <td>작성자</td>
+            <td>작성일</td>
+        </tr>
+        <% for(let post of posts) { %>
+            <tr>
+                <td><%= post.userId %></td>
+                <td><%= post.name %></td>
+                <td><%= post.createdAt %></td>
+            </tr>
+        <% } %>
+    </table>
+
+
+
+</body>
+</html>
