@@ -12,12 +12,14 @@ class TodoDetail extends Component {
     constructor(props){
         super(props)
       
+
+
         this.state ={
             title:null,
             content:null,
             deadline:null,
-            priority:null
-
+            priority:null,
+            done:null
         }
 
     }
@@ -41,7 +43,7 @@ class TodoDetail extends Component {
 
     handleDateChange= date => {
         console.log(date)
-        this.setState({ deadline: date})
+        this.setState({ deadline: date, done:date})
     }
 
 
@@ -73,19 +75,19 @@ class TodoDetail extends Component {
         
 
     }
-
+    
+   
     render(){
 
        
         const target = this.props.todo.filter((obj) => obj.id == this.props.id)
-      
-   
+        
         
        const list = target.map(({title,id,content,priority,createdAt,deadline})=>{
 
         
-        let done = deadline !== null ?moment(deadline).format("YYYY/MM/DD") :""
-
+        let done = deadline !== null ?moment(deadline).format("DD/MM/YYYY") :""
+   
         
            return (<div key={this.props.id}>
                
@@ -99,8 +101,8 @@ class TodoDetail extends Component {
                  </InputGroup>
                 
                  <div className="mb-3 col-7">작성일 : <Moment format="YYYY/MM/DD">{createdAt}</Moment></div>
-                 <div className="mb-3 col-7">마감일<DatePicker  className="form-control" onChange={this.handleDateChange} value={done}
-                 selected={done}/></div>
+                 <div className="mb-3 col-7">마감일<DatePicker  className="form-control" onChange={this.handleDateChange} value={this.state.done===null?done:this.state.deadline}
+                 selected={this.state.deadline}/></div>
                  <InputGroup className="mb-3 col-7">
                  <FormControl as="textarea" aria-label="With textarea" placeholder="상세 내용을 입력하세요."
                     value={content} onChange={e=>{this.handleContent(e)}}/>
@@ -138,7 +140,7 @@ TodoDetail.defaultProps = {
   }
 
 const mapStateToProps = (state) => {
-    console.log("EvenOddDisplay mapStateToProps..........", state)
+    console.log("Display mapStateToProps..........", state)
     const todo = state.todoReducer.todo
     const id = state.todoReducer.id
 

@@ -51,7 +51,7 @@ class TodoList extends Component{
         const target = this.props.todo.filter(obj => obj.id === id)[0]
         const index = this.props.todo.indexOf(target)
 
-        console.log(target)
+        console.log(index)
 
         axios.put("http://localhost:5000/todo?id="+id+"&complete="+!target.complete).then(res =>{
 
