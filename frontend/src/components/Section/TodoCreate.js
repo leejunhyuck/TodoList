@@ -120,8 +120,8 @@ class TodoCreate extends Component{
                
             
                 <Badge variant={PRIORITY_COLOR[parseInt(this.state.priority)]}>{parseInt(this.state.priority)}순위 </Badge>
-                <div>우선순위
-                <FormControl as="select" onChange={(e)=>this.handlePriorityChange(e)}>
+                <div >우선순위
+                <FormControl as="select" onChange={(e)=>this.handlePriorityChange(e)} value={this.state.priority || 1}>
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>

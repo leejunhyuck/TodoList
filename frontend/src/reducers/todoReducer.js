@@ -20,10 +20,19 @@ const initState = {
     
 
     if(type === "DISPLAY"){
+
+       
+        
+        const item = action.todo.find((obj) => obj.id == action.id)
+
+        console.log(Array.isArray(item))
+        console.log("-----------!!!"+item)
         newState = {
             todo:action.todo,
             id:action.id,
-            loaded:"true"
+            loaded:"true",
+            item:item
+          
         }}
         
 

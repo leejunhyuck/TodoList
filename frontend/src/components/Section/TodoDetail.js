@@ -12,15 +12,12 @@ class TodoDetail extends Component {
     constructor(props){
         super(props)
       
-
-
+        
+        
         this.state ={
-            title:null,
-            content:null,
-            deadline:null,
-            priority:null,
-            done:null
+          
         }
+       
 
     }
     
@@ -43,7 +40,7 @@ class TodoDetail extends Component {
 
     handleDateChange= date => {
         console.log(date)
-        this.setState({ deadline: date, done:date})
+        this.setState({ deadline: date})
     }
 
 
@@ -75,18 +72,23 @@ class TodoDetail extends Component {
         
 
     }
-    
-   
+
+    componentWillReceiveProps(nextProps) { this.setState (nextProps.item); }
+
+
+
     render(){
 
+        //console.log(this.props.item.length)
+        
        
-        const target = this.props.todo.filter((obj) => obj.id == this.props.id)
-        
-        
-       const list = target.map(({title,id,content,priority,createdAt,deadline})=>{
+       
+       const target = [this.props.item]
+       console.log()
+       const list = target.map(()=>{
 
         
-        let done = deadline !== null ?moment(deadline).format("DD/MM/YYYY") :""
+        //let done = this.state.deadline !== null ?moment(this.state.deadline).format("DD/MM/YYYY") :""
    
         
            return (<div key={this.props.id}>
@@ -94,18 +96,27 @@ class TodoDetail extends Component {
                <InputGroup className="mb-3 col-7">
                 
                  <FormControl 
-                     value={title}
+                     value={this.state.title}
                     aria-label="Username"
                     aria-describedby="basic-addon1" 
                     onChange={e=>{this.handleTitleChange(e)}}/>
                  </InputGroup>
                 
-                 <div className="mb-3 col-7">작성일 : <Moment format="YYYY/MM/DD">{createdAt}</Moment></div>
-                 <div className="mb-3 col-7">마감일<DatePicker  className="form-control" onChange={this.handleDateChange} value={this.state.done===null?done:this.state.deadline}
+                 <div className="mb-3 col-7">작성일 : <Moment format="YYYY/MM/DD">{this.state.createdAt}</Moment></div>
+                 <div className="mb-3 col-7">마감일<DatePicker  className="form-control" onChange={this.handleDateChange} value={this.state.deadline}
                  selected={this.state.deadline}/></div>
+                
+                <div className="mb-3 col-7">우선순위
+                <FormControl as="select" onChange={(e)=>this.handlePriorityChange(e)} defaultValue={this.state.priority}>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                 </FormControl></div>
+
+
                  <InputGroup className="mb-3 col-7">
                  <FormControl as="textarea" aria-label="With textarea" placeholder="상세 내용을 입력하세요."
-                    value={content} onChange={e=>{this.handleContent(e)}}/>
+                    value={this.state.content||""} onChange={e=>{this.handleContent(e)}}/>
                 </InputGroup>
 
                 
@@ -118,7 +129,7 @@ class TodoDetail extends Component {
 
 
     return(
-
+        this.props.id  ? 
         <div><h4>상세내용</h4>
         {list}
         <div className="mb-3 col-7" >
@@ -127,7 +138,8 @@ class TodoDetail extends Component {
         
         </div>
        </div>
-
+        :
+        <div></div>
 
 
     )
@@ -135,16 +147,21 @@ class TodoDetail extends Component {
 }
 } 
 TodoDetail.defaultProps = {
-    todo: []
-   
+    todo: [],
+    item:[]
+    
   }
 
 const mapStateToProps = (state) => {
     console.log("Display mapStateToProps..........", state)
     const todo = state.todoReducer.todo
     const id = state.todoReducer.id
-
-    return {todo:todo,id:id}
+    const item = state.todoReducer.item
+   
+    console.log(item)
+   
+    
+    return {todo:todo,id:id,item:item}
 }
 
 const mapDispatchToProps = (dispatch) => {
